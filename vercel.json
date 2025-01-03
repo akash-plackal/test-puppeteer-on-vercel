@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "api/hello.ts": {
-      "memory": 1024
-    }
-  }
-}
