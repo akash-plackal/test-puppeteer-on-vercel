@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import puppeteer from "puppeteer-core";
-import chrome from "chrome-aws-lambda";
+import chromium from "@sparticuz/chromium"
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 
@@ -13,13 +13,12 @@ const getOptions = async () => {
     };
   }
 
-  process.env.CHROME_BIN = await chrome.executablePath;
 
   return {
-    args: chrome.args,
-    executablePath: await chrome.executablePath,
-    headless: chrome.headless,
-    defaultViewport: chrome.defaultViewport,
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(),
+    headless: chromium.headless,
     ignoreHTTPSErrors: true,
   };
 };
