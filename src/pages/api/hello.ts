@@ -8,8 +8,7 @@ const getOptions = async () => {
   if (IS_DEVELOPMENT) {
     return {
       args: ["--no-sandbox"],
-      executablePath:
-        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
       headless: true,
     };
   }
@@ -25,10 +24,7 @@ const getOptions = async () => {
   };
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let browser;
 
   try {

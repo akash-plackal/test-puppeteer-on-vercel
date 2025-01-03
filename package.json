@@ -12,8 +12,8 @@
     "react": "^18",
     "react-dom": "^18",
     "next": "14.2.12",
-    "chrome-aws-lambda": "10.1.0",
-    "puppeteer-core": "10.1.0"
+    "chrome-aws-lambda": "^12.1.0",
+    "puppeteer-core": "^11.0.0"
   },
   "devDependencies": {
     "typescript": "^5",
