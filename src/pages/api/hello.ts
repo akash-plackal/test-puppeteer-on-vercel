@@ -1,28 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium-min";
+import chrome from "chrome-aws-lambda";
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
-
 
 const getOptions = async () => {
   if (IS_DEVELOPMENT) {
     return {
       args: ["--no-sandbox"],
-      //executablePath: "/opt/homebrew/bin/chromium",
       executablePath:
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
       headless: true,
     };
   }
 
+  process.env.CHROME_BIN = await chrome.executablePath;
+
   return {
-    args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
-    executablePath: await chromium.executablePath(
-      "https://github.com/Sparticuz/chromium/releases/download/v110.0.1/chromium-v110.0.1-pack.tar"
-    ),
-    headless: chromium.headless,
-    defaultViewport: chromium.defaultViewport,
+    args: chrome.args,
+    executablePath: await chrome.executablePath,
+    headless: chrome.headless,
+    defaultViewport: chrome.defaultViewport,
     ignoreHTTPSErrors: true,
   };
 };
@@ -31,7 +29,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
   let browser;
 
   try {
@@ -70,7 +67,6 @@ export default async function handler(
       waitUntil: ["networkidle0", "domcontentloaded"],
       timeout: 30000,
     });
-
 
     const pdf = await page.pdf({
       format: "a4",
