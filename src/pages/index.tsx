@@ -14,6 +14,24 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+
+const downloadPdf = async (url: string): Promise<Blob> => {
+  const response = await fetch("/api/hello", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ url }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.blob();
+};
+
+
 export default function Home() {
   return (
     <>
@@ -58,14 +76,21 @@ export default function Home() {
               />
               Deploy now
             </a>
-            <a
-              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.secondary}
+
+            <button className={styles.secondary}
+              onClick={async () => {
+                const blob = await downloadPdf("https://www.google.com");
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = "shelter-details.pdf";
+                link.click();
+              }}
             >
-              Read our docs
-            </a>
+
+              click here to download pdf
+
+            </button>
           </div>
         </main>
         <footer className={styles.footer}>
